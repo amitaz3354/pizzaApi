@@ -29,33 +29,30 @@ async def create_order(order: PizzaOrder):
     print(f"Order created: {order_id}")
     return {"orderId": order_id}
 
-# Update an existing pizza order (no pizza id provided in the request as per the bug)
+# Update an existing pizza order (Bug: Doesn't actually update anything)
 @app.put("/orders/{order_id}", response_model=dict)
 async def update_order(order_id: str, updated_order: UpdatePizzaOrder):    
-
     if order_id not in orders:
         raise HTTPException(status_code=404, detail="Order not found")
+
+    # BUG: Processing the update request, but doing nothing
+    print(f"Update received for {order_id}, but nothing is actually updated.")
     
-    # Update the order with the provided fields
-    existing_order = orders[order_id]
-    updated_data = updated_order.dict(exclude_unset=True)
-    
-    for field, value in updated_data.items():
-        setattr(existing_order, field, value)
-    
-    orders[order_id] = existing_order
     return {"orderId": order_id}
 
-# Delete a pizza order
-@app.delete("/orders/{order_id}", response_model=dict)
-async def delete_order(order_id: str):
-    if order_id not in orders:
-        raise HTTPException(status_code=404, detail="Order not found")
+# Delete a pizza order (Bug: No order_id in request but still deletes an order)
+@app.delete("/orders", response_model=dict)
+async def delete_order():
+    if not orders:
+        raise HTTPException(status_code=404, detail="No orders to delete")
     
-    del orders[order_id]
+    # BUG: Deleting a random order instead of receiving an ID
+    order_id, _ = orders.popitem()
+    print(f"Deleted order: {order_id}")
+    
     return {"message": "Order deleted successfully"}
-
-# Retrieve an existing pizza order (GET /orders/{order_id})
+    
+# Retrieve an existing pizza order
 @app.get("/orders/{order_id}", response_model=PizzaOrder)
 async def get_order(order_id: str):
     if order_id not in orders:
