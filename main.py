@@ -30,12 +30,8 @@ async def create_order(order: PizzaOrder):
     return {"orderId": order_id}
 
 # Update an existing pizza order (no pizza id provided in the request as per the bug)
-@app.put("/orders/", response_model=dict)
-async def update_order(updated_order: UpdatePizzaOrder):
-    bug_result = orders[0] if orders else "12345678"
-
-    return {"orderId": bug_result}
-    
+@app.put("/orders/{order_id}", response_model=dict)
+async def update_order(order_id: str, updated_order: UpdatePizzaOrder):    
 
     if order_id not in orders:
         raise HTTPException(status_code=404, detail="Order not found")
