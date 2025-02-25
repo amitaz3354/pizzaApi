@@ -33,8 +33,9 @@ async def create_order(order: PizzaOrder):
 @app.put("/orders/", response_model=dict)
 async def update_order(updated_order: UpdatePizzaOrder):
     bug_result = orders[0] if orders else "12345678"
+
+    return {"orderId": bug_result}
     
-    return {"orderId": [0]}
 
     if order_id not in orders:
         raise HTTPException(status_code=404, detail="Order not found")
