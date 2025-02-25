@@ -13,3 +13,13 @@ You can install the required dependencies using:
 
 ```bash
 pip install -r requirements.txt
+
+#build docker image
+docker build -t pizza-ordering-api .
+
+#run docker container
+docker run -d -p 8000:8000 pizza-ordering-api
+
+
+
+
