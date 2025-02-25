@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# pizzaApi
-pizza-order-api
-=======
 # Pizza Ordering API
 
 This project is a simple FastAPI-based API for ordering pizzas. It allows users to create, update, and delete pizza orders.
@@ -16,4 +12,3 @@ You can install the required dependencies using:
 
 ```bash
 pip install fastapi uvicorn
->>>>>>> 9781fdb (ready)
